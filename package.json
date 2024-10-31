@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "nodemon",
-    "build": "bun run build:client && bun run build:server",
+    "build": "yarn build:client && yarn build:server",
     "build:client": "NODE_ENV=production next build",
     "build:server": "rm -rf dist && NODE_ENV=production tsc --project tsconfig.server.json",
     "start": "NODE_ENV=production node -r ./tsconfig-paths.config.js dist/server/index.js",

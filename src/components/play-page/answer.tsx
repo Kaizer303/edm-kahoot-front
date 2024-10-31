@@ -22,8 +22,8 @@ const Answer = ({ room, isHost, changeState, myName }: AnswerProps) => {
   const handleAnswer = (choice: Choice) => {
     setIsAnswered(true);
     putAnswer(
-      room?._id,
-      room?.questions[room?.currentQuestion - 1]._id,
+      room._id!,
+      room.questions[room.currentQuestion - 1]._id!,
       myName,
       calculateTimeLeftInMilisecond(startTime, new Date(), timer),
       choice.name
@@ -34,7 +34,7 @@ const Answer = ({ room, isHost, changeState, myName }: AnswerProps) => {
   };
 
   const handleNext = () => {
-    putRoomStatus(room?._id, "summarize");
+    putRoomStatus(room._id!, "summarize");
   };
 
   // TODO: countdown timer

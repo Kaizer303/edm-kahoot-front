@@ -15,10 +15,12 @@ export const ROOM_INIT: Room = {
   status: "wait",
   players: [
     {
+      _id: '123',
       name: "nunt",
       score: 10,
     },
     {
+      _id: '123',
       name: "john",
       score: 5,
     },
@@ -30,11 +32,13 @@ export const ROOM_INIT: Room = {
       timer: 10,
       choices: [
         {
+          _id: '123',
           name: "ไทย",
           isCorrect: true,
           countPlayers: 2,
         },
         {
+          _id: '123',
           name: "ญี่ปุ่น",
           isCorrect: false,
           countPlayers: 1,
@@ -47,11 +51,13 @@ export const ROOM_INIT: Room = {
       timer: 15,
       choices: [
         {
+          _id: '123',
           name: "กรุงเทพ",
           isCorrect: true,
           countPlayers: 3,
         },
         {
+          _id: '123',
           name: "เชียงใหม่",
           isCorrect: false,
           countPlayers: 0,
