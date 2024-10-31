@@ -9,9 +9,9 @@ export const getRoom = async (roomId: string) => {
 export const joinRoom = async (roomId: string, username: string) => {
   const { data } = await axios.post(`${configs.API_URL}/rooms/${roomId}/join`, {
     name: username,
-  })
-  return data
-}
+  });
+  return data;
+};
 export const putRoomStatus = async (roomId: string, status: string) => {
   const response = await axios.put(
     `${configs.API_URL}/rooms/${roomId}/status`,
@@ -30,7 +30,7 @@ export const putAnswer = async (
   answer: string
 ) => {
   const response = await axios.put(
-    `${configs.API_URL}/rooms/${roomId}/question/${questionId}/answer`,
+    `${configs.API_URL}/rooms/${roomId}/questions/${questionId}/answer`,
     {
       playerName,
       remainTimer,
