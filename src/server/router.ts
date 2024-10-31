@@ -11,5 +11,6 @@ router
     .post('/tn-analytics', analyticsController.setBackendToken, analyticsController.getAwsCognitoToken)
     
     .get('/auth/tn', authController.authThinknet)
+    .post('/auth/guest', authController.authGuest)
 
 export default router
