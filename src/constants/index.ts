@@ -8,25 +8,51 @@ export const LOCALE = {
 export const SUPPORTED_LOCALES = [LOCALE.TH, LOCALE.EN];
 
 export const ROOM_INIT: Room = {
-  _id: "8913751",
-  currentQuestion: 0,
+  _id: "123213123",
+  currentQuestion: 1,
   pin: "1234",
   hostID: "123123123123",
-  status: "wait", // ["wait","countdown", "start", "summarize", "end"]
+  status: "wait",
   players: [
     {
-      name: "Player 1",
-      score: 0,
+      name: "nunt",
+      score: 10,
+    },
+    {
+      name: "john",
+      score: 5,
     },
   ],
   questions: [
     {
-      _id: "123123123123",
-      name: "Question 1",
+      _id: "12312312312",
+      name: "ประเทศอะไร",
       timer: 10,
       choices: [
         {
-          name: "Choice 1",
+          name: "ไทย",
+          isCorrect: true,
+          countPlayers: 2,
+        },
+        {
+          name: "ญี่ปุ่น",
+          isCorrect: false,
+          countPlayers: 1,
+        },
+      ],
+    },
+    {
+      _id: "12312312313",
+      name: "เมืองหลวงของไทยคืออะไร",
+      timer: 15,
+      choices: [
+        {
+          name: "กรุงเทพ",
+          isCorrect: true,
+          countPlayers: 3,
+        },
+        {
+          name: "เชียงใหม่",
           isCorrect: false,
           countPlayers: 0,
         },

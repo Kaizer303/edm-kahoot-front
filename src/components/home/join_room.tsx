@@ -2,38 +2,36 @@
 
 import { UserContext } from '@/contexts/user'
 import { useRouter } from '@/navigation'
-import { Button, Col, Input, Row } from 'antd'
+import { joinRoom } from '@/services/room'
+import { Button, Input, notification } from 'antd'
 import { useContext, useState } from 'react'
 
 const JoinRoomSection: React.FC = () => {
+  const [pinID, setPinID] = useState<string>('')
   const { username } = useContext(UserContext)
-  const [roomID, setRoomID] = useState<string>()
   const router = useRouter()
 
-  const onChangeRoomID = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setRoomID(e.target.value)
+  const onChangePinID = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPinID(e.target.value)
   }
 
-  const onJoin = () => {
-    router.push(`/${roomID}`)
+  const onJoin = async () => {
+    try {
+      const { roomID } = await joinRoom(pinID, username)
+      router.push(`/rooms/${roomID}`)
+    } catch (err) {
+      notification.error({
+        message: 'failed to join room',
+        description: `${err}`,
+      })
+    }
   }
 
   return (
-    <Row gutter={2}>
-      <Col xs={8}>
-        <Input placeholder="Room Pin" onChange={onChangeRoomID} />
-      </Col>
-      <Col xs={8}>
-        <Input
-          readOnly={username !== 'Guest'}
-          defaultValue={username}
-          placeholder="Name"
-        />
-      </Col>
-      <Col xs={8}>
-        <Button onClick={onJoin}>เข้าร่วม</Button>
-      </Col>
-    </Row>
+    <div className='flex flex-row'>
+      <Input placeholder="Room Pin" onChange={onChangePinID} />
+      <Button disabled={pinID === ''} type='primary' onClick={onJoin}>เข้าร่วม</Button>
+    </div>
   )
 }
 

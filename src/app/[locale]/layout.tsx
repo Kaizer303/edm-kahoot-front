@@ -16,7 +16,7 @@ export const generateMetadata = async () => {
 }
 
 const RootLayout: React.FC<LayoutProps> = ({ children }) => {
-  const user = cookies().get('user')?.value ?? 'Guest'
+  const user = cookies().get('user')?.value ?? ''
 
   return (
     <NextIntlProvider>
