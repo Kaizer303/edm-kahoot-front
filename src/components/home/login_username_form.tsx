@@ -2,7 +2,7 @@
 
 import { UserContext } from '@/contexts/user'
 import { useRouter } from '@/navigation'
-import { Button, Input } from 'antd'
+import { Button, Input, notification } from 'antd'
 import axios from 'axios'
 import { useContext, useState } from 'react'
 
@@ -22,7 +22,10 @@ const LoginUsernameForm: React.FC = () => {
       setUsernameCtx(username)
       router.replace('/home')
     } catch (err) {
-      window.alert('failed to login guest')
+      notification.error({
+        message: 'failed to login guest',
+        description: `${err}`,
+      })
     }
   }
   
