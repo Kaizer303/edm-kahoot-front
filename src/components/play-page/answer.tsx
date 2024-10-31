@@ -58,7 +58,7 @@ const Answer = ({ room, isHost, changeState, myName }: AnswerProps) => {
       <div className="grid grid-cols-2 gap-4">
         {room?.questions[room?.currentQuestion - 1]?.choices.map((choice) => (
           <div key={choice.name}>
-            {timer <= 0 ? "🔥" : ""}
+            {timer <= 0 && choice.isCorrect ? "🔥" : ""}
             <Button
               disabled={timer <= 0 || isHost || isAnswered}
               type="primary"
