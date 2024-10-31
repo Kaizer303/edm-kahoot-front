@@ -23,6 +23,7 @@ type Room = {
 };
 
 type Player = {
+  _id: string;
   name: string;
   score: number;
 };
@@ -35,6 +36,7 @@ type Question = {
 };
 
 type Choice = {
+  _id: string;
   name: string;
   isCorrect: boolean;
   countPlayers: number;

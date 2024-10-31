@@ -1,3 +1,8 @@
+import {
+  putQuestionEnd,
+  putQuestionNext,
+  putRoomStatus,
+} from "@/services/room";
 import { Player, Room } from "@/types/common";
 import { Button, List, Select } from "antd";
 import { useEffect, useState } from "react";
@@ -23,7 +28,11 @@ const Summarize = ({ room, isHost }: SummarizeProps) => {
   console.log(numberOfPlayer);
 
   const handleNext = () => {
-    console.log("next");
+    if (room.questions.length == room.currentQuestion) {
+      putQuestionEnd(room?._id);
+    } else {
+      putQuestionNext(room?._id);
+    }
   };
 
   return (

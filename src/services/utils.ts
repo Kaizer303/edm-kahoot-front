@@ -1,6 +1,7 @@
 export const calculateTimeLeftInMilisecond = (
-  startTime: number,
+  startTime: Date,
+  currentTime: Date,
   timer: number
 ) => {
-  return timer * 1000 - (Date.now() - startTime);
+  return timer * 1000 - (currentTime.getTime() - startTime.getTime());
 };
