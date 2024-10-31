@@ -9,7 +9,7 @@ interface WaitingRoomProps {
 
 const WaitingRoom = ({ room, isHost, myName }: WaitingRoomProps) => {
   const handleStart = async () => {
-    await putRoomStatus(room._id, "countdown");
+    await putRoomStatus(room._id as string, "countdown");
   };
   return (
     <div className="flex flex-col gap-4 m-4">

@@ -33,10 +33,12 @@ const PlayPage = () => {
 
   useEffect(() => {
     setMyName(username);
+    console.log(username);
+    console.log(data.hostName);
     if (username === data.hostName) {
       setIsHost(true);
     }
-  }, [username]);
+  }, [username, data.hostName]);
 
   const changeState = (status: RoomStatus) => {
     setData({ ...data, status: status });

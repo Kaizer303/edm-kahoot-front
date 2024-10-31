@@ -27,9 +27,9 @@ const Summarize = ({ room, isHost }: SummarizeProps) => {
 
   const handleNext = () => {
     if (room.questions.length == room.currentQuestion) {
-      putQuestionEnd(room?._id);
+      putQuestionEnd(room?._id as string);
     } else {
-      putQuestionNext(room?._id);
+      putQuestionNext(room?._id as string);
     }
   };
 
