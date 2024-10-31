@@ -1,6 +1,5 @@
 "use client";
 
-import { useParams } from "next/navigation";
 import Answer from "@/components/play-page/answer";
 import Countdown from "@/components/play-page/countdown";
 import WaitingRoom from "@/components/play-page/waiting-room";
@@ -12,16 +11,10 @@ import { UserContext } from "@/contexts/user";
 import Summarize from "@/components/play-page/summarize";
 
 const PlayPage = () => {
-  const params = useParams();
-  const [roomId, setRoomId] = useState<string>("");
   const { username } = useContext(UserContext);
   const [data, setData] = useState<Room>(ROOM_INIT);
   const [isHost, setIsHost] = useState<boolean>(false);
   const [myName, setMyName] = useState<string>("HOST");
-
-  useEffect(() => {
-    setRoomId(params.roomId as string);
-  }, [params.roomId]);
 
   useEffect(() => {
     console.log(data);
