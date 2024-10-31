@@ -1,0 +1,106 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Page] src/app/[locale]/ssr/page.tsx [Snapshot Test] should match 1 data snapshot 1`] = `
+<DocumentFragment>
+  <h1
+    class="ant-typography css-dev-only-do-not-override-mzwlov"
+  >
+    Server Side Rendering
+  </h1>
+  <div
+    class="ant-divider css-dev-only-do-not-override-mzwlov ant-divider-horizontal"
+    role="separator"
+  />
+  <div
+    class="ant-row css-dev-only-do-not-override-mzwlov"
+  >
+    <div
+      class="ant-col ant-col-xs-24 css-dev-only-do-not-override-mzwlov"
+    >
+      <div
+        data-mock-component="Link"
+        href="/ssg/1"
+        locale="th"
+      >
+        <div>
+          1 data1
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`[Page] src/app/[locale]/ssr/page.tsx [Snapshot Test] should match multiple data snapshot 1`] = `
+<DocumentFragment>
+  <h1
+    class="ant-typography css-dev-only-do-not-override-mzwlov"
+  >
+    Server Side Rendering
+  </h1>
+  <div
+    class="ant-divider css-dev-only-do-not-override-mzwlov ant-divider-horizontal"
+    role="separator"
+  />
+  <div
+    class="ant-row css-dev-only-do-not-override-mzwlov"
+  >
+    <div
+      class="ant-col ant-col-xs-24 css-dev-only-do-not-override-mzwlov"
+    >
+      <div
+        data-mock-component="Link"
+        href="/ssg/1"
+        locale="th"
+      >
+        <div>
+          1 data1
+        </div>
+      </div>
+    </div>
+    <div
+      class="ant-col ant-col-xs-24 css-dev-only-do-not-override-mzwlov"
+    >
+      <div
+        data-mock-component="Link"
+        href="/ssg/2"
+        locale="th"
+      >
+        <div>
+          2 data2
+        </div>
+      </div>
+    </div>
+    <div
+      class="ant-col ant-col-xs-24 css-dev-only-do-not-override-mzwlov"
+    >
+      <div
+        data-mock-component="Link"
+        href="/ssg/3"
+        locale="th"
+      >
+        <div>
+          3 data3
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`[Page] src/app/[locale]/ssr/page.tsx [Snapshot Test] should match no data snapshot 1`] = `
+<DocumentFragment>
+  <h1
+    class="ant-typography css-dev-only-do-not-override-mzwlov"
+  >
+    Server Side Rendering
+  </h1>
+  <div
+    class="ant-divider css-dev-only-do-not-override-mzwlov ant-divider-horizontal"
+    role="separator"
+  />
+  <div
+    class="ant-row css-dev-only-do-not-override-mzwlov"
+  />
+</DocumentFragment>
+`;

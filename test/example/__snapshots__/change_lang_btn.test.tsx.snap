@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Unit Test] components/example/change_lang_btn.tsx [Snapshot Test] should match snapshot 1`] = `
+<DocumentFragment>
+  <button
+    class="ant-btn css-dev-only-do-not-override-mzwlov ant-btn-primary"
+    type="button"
+  >
+    <span>
+      button_label
+    </span>
+  </button>
+</DocumentFragment>
+`;

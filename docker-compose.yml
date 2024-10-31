@@ -1,0 +1,21 @@
+version: '2'
+services:
+    app:
+        build:
+          context: .
+          target: builder
+          args:
+            APP_ENV: local
+        working_dir: /usr/src/app
+        volumes:
+            - .:/usr/src/app
+        ports:
+            - "3000:3000"
+        env_file:
+            - .env.local
+        command: ['/bin/sh', '-c', 'bun install && bun run dev']
+
+networks:
+  default:
+    name: microservicenetwork
+    external: true
