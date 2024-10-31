@@ -11,7 +11,7 @@ export const ROOM_INIT: Room = {
   _id: "123213123",
   currentQuestion: 1,
   pin: "1234",
-  hostID: "123123123123",
+  hostName: "123123123123",
   status: "wait",
   players: [
     {
