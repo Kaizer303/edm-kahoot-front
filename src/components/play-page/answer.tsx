@@ -8,7 +8,7 @@ type AnswerProps = {
 
 const Answer = ({ room, isHost }: AnswerProps) => {
   return (
-    <div className="flex flex-col gap-4 ">
+    <div className="flex flex-col gap-4 m-4">
       <h1>
         Question {room?.currentQuestion}/{room?.questions.length}
       </h1>

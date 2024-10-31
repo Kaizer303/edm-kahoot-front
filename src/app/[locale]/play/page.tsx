@@ -6,12 +6,26 @@ import WaitingRoom from "@/components/play-page/waiting-room";
 import { ROOM_INIT } from "@/constants";
 import { Room, RoomStatus } from "@/types/common";
 import { Button } from "antd";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "@/contexts/user";
+import Summarize from "@/components/play-page/summarize";
 
 const PlayPage = () => {
+  const { username } = useContext(UserContext);
   const [data, setData] = useState<Room>(ROOM_INIT);
   const [isHost, setIsHost] = useState<boolean>(false);
   const [myName, setMyName] = useState<string>("HOST");
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
+  useEffect(() => {
+    setMyName(username);
+    if (username === data.hostName) {
+      setIsHost(true);
+    }
+  }, [username]);
 
   const changeState = (status: RoomStatus) => {
     setData({ ...data, status: status });
@@ -48,7 +62,7 @@ const PlayPage = () => {
       ) : data?.status === "start" ? (
         <Answer room={data} isHost={isHost} />
       ) : data?.status === "summarize" ? (
-        <div>summarize</div>
+        <Summarize room={data} isHost={isHost} />
       ) : (
         <div>No page</div>
       )}

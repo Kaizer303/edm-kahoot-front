@@ -16,7 +16,7 @@ type Room = {
   _id: string;
   currentQuestion: number;
   pin: string;
-  hostID: string;
+  hostName: string;
   status: RoomStatus;
   players: Player[];
   questions: Question[];

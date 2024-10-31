@@ -9,7 +9,7 @@ interface WaitingRoomProps {
 
 const WaitingRoom = ({ room, isHost, myName }: WaitingRoomProps) => {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 m-4">
       <div className="flex justify-between">
         <h2>WaitingRoom</h2>
         <h2>{myName}</h2>
