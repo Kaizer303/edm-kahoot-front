@@ -10,12 +10,14 @@ interface KeyValueObject {
   [key: string]: string | KeyValueObject;
 }
 
+export type RoomStatus = "wait" | "countdown" | "start" | "summarize" | "end";
+
 type Room = {
   _id: string;
   currentQuestion: number;
   pin: string;
   hostID: string;
-  status: string;
+  status: RoomStatus;
   players: Player[];
   questions: Question[];
 };
