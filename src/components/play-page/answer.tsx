@@ -63,7 +63,7 @@ const Answer = ({ room, isHost, changeState, myName }: AnswerProps) => {
             key={choice.name}
             onClick={() => handleAnswer(choice)}
           >
-            {choice.name}
+            {`${choice.name} : ${timer <= 0 ? choice.countPlayers : ""}`}
           </Button>
         ))}
       </div>

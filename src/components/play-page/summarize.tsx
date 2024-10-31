@@ -25,8 +25,6 @@ const Summarize = ({ room, isHost }: SummarizeProps) => {
     setSortedPlayers(sortedPlayers);
   }, [room.players, numberOfPlayer]);
 
-  console.log(numberOfPlayer);
-
   const handleNext = () => {
     if (room.questions.length == room.currentQuestion) {
       putQuestionEnd(room?._id);
@@ -57,7 +55,9 @@ const Summarize = ({ room, isHost }: SummarizeProps) => {
           }}
         >
           {room?.players.map((_, index) => (
-            <Select.Option value={index + 1}>{index + 1}</Select.Option>
+            <Select.Option key={index} value={index + 1}>
+              {index + 1}
+            </Select.Option>
           ))}
         </Select>
         <h2> ลำดับ</h2>
