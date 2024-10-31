@@ -1,20 +1,16 @@
-'use client'
-
+import CreateQuestionButton from '@/components/home/create_question_btn'
 import JoinRoomSection from '@/components/home/join_room'
 import WelcomeUserSection from '@/components/home/welcome_user'
-import useUnAuthenEffect from '@/hooks/use_unauthen_effect'
-import { useRouter } from '@/navigation'
 import type { PageProps } from '@/types/common'
-import { Button } from 'antd'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 
 const HomePage: React.FC<PageProps> = () => {
-  useUnAuthenEffect()
-  const router = useRouter()
-
-  const onCreate = () => {
-    router.push('/create-question')
+  const user = cookies().get('user')?.value ?? ''
+  if (!user) {
+    return redirect('/')
   }
-
+  
   return (
     <div className="flex justify-center items-center min-h-screen">
       <div className="max-w-lg w-full text-center p-4">
@@ -22,7 +18,7 @@ const HomePage: React.FC<PageProps> = () => {
           <WelcomeUserSection />
         </div>
         <div className='mb-8'>
-          <Button onClick={onCreate} className='w-full'>สร้างคำถาม</Button>
+          <CreateQuestionButton />
         </div>
         <div className='mb-8'>
           <JoinRoomSection />

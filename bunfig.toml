@@ -21,7 +21,7 @@ frozenLockfile = false
 dryRun = false
 
 # set a token
-registry = { url = "https://npm.thinknet.co.th", token = "amVua2luczpqZW5raW5z" }
+# registry = { url = "https://npm.thinknet.co.th", token = "amVua2luczpqZW5raW5z" }
 
 [install.cache]
 # the directory to use for the cache
