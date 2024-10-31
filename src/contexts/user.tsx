@@ -19,8 +19,6 @@ const UserContext = React.createContext<UserContextInterface>({
 const UserProvider: React.FC<UserProviderProps> = ({ children, user }) => {
   const [username, setUsername] = useState<string>(user);
 
-  console.log("+++++++", username);
-
   const value: UserContextInterface = {
     username,
     setUsername: (u: string) => setUsername(u),
