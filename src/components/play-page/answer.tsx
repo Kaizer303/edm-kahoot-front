@@ -57,14 +57,19 @@ const Answer = ({ room, isHost, changeState, myName }: AnswerProps) => {
       <h1>{room?.questions[room?.currentQuestion - 1]?.name}</h1>
       <div className="grid grid-cols-2 gap-4">
         {room?.questions[room?.currentQuestion - 1]?.choices.map((choice) => (
-          <Button
-            disabled={timer <= 0 || isHost || isAnswered}
-            type="primary"
-            key={choice.name}
-            onClick={() => handleAnswer(choice)}
-          >
-            {`${choice.name} : ${timer <= 0 ? choice.countPlayers : ""}`}
-          </Button>
+          <div key={choice.name}>
+            {timer <= 0 ? "🔥" : ""}
+            <Button
+              disabled={timer <= 0 || isHost || isAnswered}
+              type="primary"
+              key={choice.name}
+              onClick={() => handleAnswer(choice)}
+            >
+              {`${choice.name} ${timer <= 0 ? ":" : ""} ${
+                timer <= 0 ? choice.countPlayers : ""
+              }`}
+            </Button>
+          </div>
         ))}
       </div>
       {isHost && (

@@ -12,7 +12,7 @@ import { UserContext } from "@/contexts/user";
 import Summarize from "@/components/play-page/summarize";
 import { getRoom } from "@/services/room";
 
-const IS_DEV = true;
+const IS_DEV = false;
 
 const PlayPage = () => {
   const params = useParams();
