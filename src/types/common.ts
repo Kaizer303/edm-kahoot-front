@@ -11,7 +11,7 @@ interface KeyValueObject {
 }
 
 type Room = {
-  _id: string;
+  _id?: string;
   currentQuestion: number;
   pin: string;
   hostID: string;
@@ -26,7 +26,7 @@ type Player = {
 };
 
 type Question = {
-  _id: string;
+  _id?: string;
   name: string;
   timer: number;
   choices: Choice[];
@@ -35,7 +35,7 @@ type Question = {
 type Choice = {
   name: string;
   isCorrect: boolean;
-  countPlayers: number;
+  countPlayers?: number;
 };
 
 export type {

@@ -1,7 +1,7 @@
 // app/questions/create/page.tsx
 'use client'
 
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {
   Button,
   Card,
@@ -24,15 +24,15 @@ import {
   SaveOutlined,
   ClockCircleOutlined,
   QuestionCircleOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined
 } from '@ant-design/icons'
 import { notification } from 'antd'
 import axios from 'axios'
 
+import { UserContext } from '@/contexts/user'
+
 const { Title, Text } = Typography
 const { TextArea } = Input
-const { Header, Sider, Content } = Layout
+const { Sider, Content } = Layout
 
 interface Answer {
   id: number
@@ -48,6 +48,7 @@ interface Question {
 }
 
 const QuestionCreator: React.FC = () => {
+  const { username } = useContext(UserContext)
   const [questions, setQuestions] = useState<Question[]>([{
     id: 1,
     name: '',
@@ -120,10 +121,11 @@ const QuestionCreator: React.FC = () => {
           }))
         }))
 
-        console.log('Saving questions:', questionsData)
+        const roomData = { hostName: username, questions: questionsData }
+        console.log('Saving questions:', roomData)
 
 
-        // await axios.post('/rooms', { questions: questionsData })
+        await axios.post('/rooms', roomData)
         
         notification.success({
           message: 'บันทึกสำเร็จ',
@@ -257,6 +259,7 @@ const QuestionCreator: React.FC = () => {
           height: '100vh',
           position: 'fixed',
           left: 0,
+          boxShadow: '-1px 1px 5px #aaaaaa'
         }}
       >
         <div style={{ 
@@ -266,11 +269,6 @@ const QuestionCreator: React.FC = () => {
           padding: '16px'
         }}>
           {!collapsed && <Title level={4} style={{ margin: 0 }}>รายการคำถาม</Title>}
-          {/* <Button
-            type='name'
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-          /> */}
           <Button
             type='primary'
             icon={<SaveOutlined />}
@@ -304,29 +302,7 @@ const QuestionCreator: React.FC = () => {
       </Sider>
 
       <Layout style={{ marginLeft: collapsed ? 80 : 300, transition: 'all 0.2s' }}>
-        {/* <Header style={{ 
-          padding: '0 24px', 
-          background: colorBgContainer,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          position: 'sticky',
-          top: 0,
-          zIndex: 1,
-          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)'
-        }}>
-          <Title level={4} style={{ margin: 0 }}>สร้างคำถาม</Title>
-          <Button
-            type='primary'
-            icon={<SaveOutlined />}
-            onClick={handleSave}
-            size='large'
-          >
-            บันทึก
-          </Button>
-        </Header> */}
-
-        <Content style={{ margin: '24px', background: colorBgContainer, padding: 24, minHeight: 280 }}>
+        <Content style={{ margin: '14px 24px', background: colorBgContainer, padding: 24, minHeight: 280, boxShadow: '1px 1px 5px #aaaaaa', borderRadius: '5px' }}>
           {errors.length > 0 && (
             <Alert
               message='พบข้อผิดพลาด'
@@ -348,11 +324,13 @@ const QuestionCreator: React.FC = () => {
               title={`คำถามที่ ${questions.findIndex(q => q.id === currentQuestion.id) + 1}`}
               extra={
                 <Button
-                  type='name'
+                  type="primary"
                   danger
                   icon={<DeleteOutlined />}
                   onClick={() => confirmDeleteQuestion(currentQuestion.id)}
-                />
+                >
+                  ลบ
+                </Button>
               }
             >
               <Space direction='vertical' size='middle' style={{ width: '100%' }}>
@@ -396,7 +374,6 @@ const QuestionCreator: React.FC = () => {
                       />
                       {currentQuestion.choices.length > 1 && (
                         <Button
-                          type='name'
                           danger
                           icon={<DeleteOutlined />}
                           onClick={() => removeAnswer(currentQuestion.id, answer.id)}
