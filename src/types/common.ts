@@ -46,4 +46,4 @@ export type {
   Player,
   Question,
   Choice,
-};
+}

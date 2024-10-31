@@ -29,12 +29,15 @@ import { notification } from 'antd'
 import axios from 'axios'
 
 import { UserContext } from '@/contexts/user'
+import { useRouter } from '@/navigation'
+
+// import { Question, Choices } from '@/types/common'
 
 const { Title, Text } = Typography
 const { TextArea } = Input
 const { Sider, Content } = Layout
 
-interface Answer {
+interface Choices {
   id: number
   name: string
   isCorrect: boolean
@@ -44,17 +47,23 @@ interface Question {
   id: number
   name: string
   timer: number
-  choices: Answer[]
+  choices: Choices[]
 }
 
 const QuestionCreator: React.FC = () => {
-  const { username } = useContext(UserContext)
+const router = useRouter()
+const { username } = useContext(UserContext)
   const [questions, setQuestions] = useState<Question[]>([{
     id: 1,
     name: '',
     timer: 10,
     choices: [{
       id: 1,
+      name: '',
+      isCorrect: false
+    },
+    {
+      id: 2,
       name: '',
       isCorrect: false
     }]
@@ -122,15 +131,14 @@ const QuestionCreator: React.FC = () => {
         }))
 
         const roomData = { hostName: username, questions: questionsData }
-        console.log('Saving questions:', roomData)
 
-
-        await axios.post('/rooms', roomData)
+        const { data: { _id } } = await axios.post('https://edm-kahoot-service-production.up.railway.app/rooms', roomData)
         
-        notification.success({
-          message: 'บันทึกสำเร็จ',
-          description: 'บันทึกคำถามเรียบร้อยแล้ว',
-        })
+        router.push(`/rooms/${_id}`)
+        // notification.success({
+        //   message: 'บันทึกสำเร็จ',
+        //   description: 'บันทึกคำถามเรียบร้อยแล้ว',
+        // })
       } catch (error) {
         notification.error({
           message: 'เกิดข้อผิดพลาด',
@@ -148,6 +156,11 @@ const QuestionCreator: React.FC = () => {
       timer: 10,
       choices: [{
         id: 1,
+        name: '',
+        isCorrect: false
+      },
+      {
+        id: 2,
         name: '',
         isCorrect: false
       }]
@@ -327,6 +340,7 @@ const QuestionCreator: React.FC = () => {
                   type="primary"
                   danger
                   icon={<DeleteOutlined />}
+                  disabled={questions.length < 2}
                   onClick={() => confirmDeleteQuestion(currentQuestion.id)}
                 >
                   ลบ
@@ -372,7 +386,7 @@ const QuestionCreator: React.FC = () => {
                         onChange={(e) => updateAnswer(currentQuestion.id, answer.id, e.target.value)}
                         style={{ flex: 1 }}
                       />
-                      {currentQuestion.choices.length > 1 && (
+                      {currentQuestion.choices.length > 2 && (
                         <Button
                           danger
                           icon={<DeleteOutlined />}
