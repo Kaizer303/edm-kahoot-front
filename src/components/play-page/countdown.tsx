@@ -1,20 +1,21 @@
-import { Room } from "@/types/common";
+import { Room, RoomStatus } from "@/types/common";
 import { useEffect, useState } from "react";
 type CountDownProps = {
   room: Room;
+  changeState: (status: RoomStatus) => void;
 };
 
-const Countdown = ({ room }: CountDownProps) => {
-  const [timer, setTimer] = useState<number>(
-    room?.questions[room?.currentQuestion - 1]?.timer || 0
-  );
-  const [startTime, setStartTime] = useState<number>(Date.now());
+const Countdown = ({ room, changeState }: CountDownProps) => {
+  const [timer, setTimer] = useState<number>(5);
 
   // TODO: countdown timer
   // use time.now to count down
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimer(timer - 1);
+      if (timer > 0) {
+        setTimer(timer - 1);
+      }
+      // TODO: if timer is 0 change state to start
     }, 1000);
     return () => clearInterval(interval);
   }, [timer]);

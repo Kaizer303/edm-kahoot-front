@@ -56,7 +56,6 @@ const makeClient = () => {
     : httpLink
 
   return new ApolloClient({
-    ssrMode: typeof window === 'undefined',
     cache: new InMemoryCache(),
     link,
   })
