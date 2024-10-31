@@ -1,9 +1,10 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 
 interface UserContextInterface {
   username: string
+  setUsername: (_u: string) => void
 }
 
 interface UserProviderProps extends React.PropsWithChildren {
@@ -11,13 +12,20 @@ interface UserProviderProps extends React.PropsWithChildren {
 }
 
 const UserContext = React.createContext<UserContextInterface>({
-  username: 'Guest',
+  username: '',
+  setUsername: (_u: string) => {},
 })
 
 const UserProvider: React.FC<UserProviderProps> = ({ children, user }) => {
+  const [username, setUsername] = useState<string>(user)
+
+  console.log("+++++++", username)
+
   const value: UserContextInterface = {
-    username: user,
+    username,
+    setUsername: (u: string) => setUsername(u),
   }
+
 
   return (
     <UserContext.Provider value={value}>
