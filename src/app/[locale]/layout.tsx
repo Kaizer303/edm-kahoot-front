@@ -3,6 +3,8 @@ import type { Metadata } from 'next'
 import type { LayoutProps } from '@/types/common'
 import { getTranslations } from 'next-intl/server'
 import NextIntlProvider from '@/contexts/next_intl'
+import { cookies } from 'next/headers'
+import { UserProvider } from '@/contexts/user'
 
 export const generateMetadata = async () => {
   const t = await getTranslations('Common')
@@ -14,9 +16,13 @@ export const generateMetadata = async () => {
 }
 
 const RootLayout: React.FC<LayoutProps> = ({ children }) => {
+  const user = cookies().get('user')?.value ?? 'Guest'
+
   return (
     <NextIntlProvider>
-      {children}
+      <UserProvider user={user}>
+        {children}
+      </UserProvider>
     </NextIntlProvider>
   )
 }
