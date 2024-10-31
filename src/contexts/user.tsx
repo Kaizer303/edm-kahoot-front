@@ -1,44 +1,34 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
 interface UserContextInterface {
-  username: string
-  setUsername: (_u: string) => void
+  username: string;
+  setUsername: (_u: string) => void;
 }
 
 interface UserProviderProps extends React.PropsWithChildren {
-  user: string
+  user: string;
 }
 
 const UserContext = React.createContext<UserContextInterface>({
-  username: '',
+  username: "",
   setUsername: (_u: string) => {},
-})
+});
 
 const UserProvider: React.FC<UserProviderProps> = ({ children, user }) => {
-  const [username, setUsername] = useState<string>(user)
+  const [username, setUsername] = useState<string>(user);
 
-  console.log("+++++++", username)
+  console.log("+++++++", username);
 
   const value: UserContextInterface = {
     username,
     setUsername: (u: string) => setUsername(u),
-  }
+  };
 
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+};
 
-  return (
-    <UserContext.Provider value={value}>
-      {children}
-    </UserContext.Provider>
-  )
-}
+export { UserContext, UserProvider };
 
-export {
-  UserContext,
-  UserProvider,
-}
-
-export type {
-  UserContextInterface,
-}
+export type { UserContextInterface };

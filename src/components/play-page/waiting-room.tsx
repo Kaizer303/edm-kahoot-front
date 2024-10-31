@@ -1,6 +1,6 @@
 import { Room } from "@/types/common";
 import { Button } from "antd";
-
+import { putRoomStatus } from "@/services/room";
 interface WaitingRoomProps {
   room: Room;
   isHost: boolean;
@@ -8,6 +8,9 @@ interface WaitingRoomProps {
 }
 
 const WaitingRoom = ({ room, isHost, myName }: WaitingRoomProps) => {
+  const handleStart = () => {
+    putRoomStatus(room._id, "countdown");
+  };
   return (
     <div className="flex flex-col gap-4 m-4">
       <div className="flex justify-between">
@@ -22,7 +25,9 @@ const WaitingRoom = ({ room, isHost, myName }: WaitingRoomProps) => {
         <h2>{room.pin}</h2>
       </div>
       {isHost ? (
-        <Button type="primary">Start</Button>
+        <Button type="primary" onClick={handleStart}>
+          Start
+        </Button>
       ) : (
         <h2>Wait for host to start</h2>
       )}

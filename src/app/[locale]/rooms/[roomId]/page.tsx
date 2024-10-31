@@ -14,25 +14,21 @@ import { getRoom } from "@/services/room";
 
 const PlayPage = () => {
   const params = useParams();
-  const [roomId, setRoomId] = useState<string>("");
   const { username } = useContext(UserContext);
   const [data, setData] = useState<Room>(ROOM_INIT);
   const [isHost, setIsHost] = useState<boolean>(false);
   const [myName, setMyName] = useState<string>("HOST");
 
   useEffect(() => {
-    setRoomId(params.roomId as string);
-  }, [params.roomId]);
-
-  useEffect(() => {
     // TODO: if is not host polling room data every 500 miliseconds
     if (!isHost) {
       const interval = setInterval(() => {
-        getRoom(roomId).then((data) => setData(data));
+        getRoom(params?.roomId as string).then((data) => {
+          setData(data);
+        });
       }, 500);
       return () => clearInterval(interval);
     }
-    console.log(data);
   }, [data, isHost]);
 
   useEffect(() => {
@@ -45,8 +41,6 @@ const PlayPage = () => {
   const changeState = (status: RoomStatus) => {
     setData({ ...data, status: status });
   };
-
-  console.log(data);
 
   return (
     <div>
