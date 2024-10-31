@@ -30,7 +30,7 @@ const JoinRoomSection: React.FC = () => {
   return (
     <div className='flex flex-row'>
       <Input placeholder="Room Pin" onChange={onChangePinID} />
-      <Button disabled={pinID === ''} type='primary' onClick={onJoin}>เข้าร่วม</Button>
+      <Button className='ml-4' disabled={pinID === ''} type='primary' onClick={onJoin}>เข้าร่วม</Button>
     </div>
   )
 }
