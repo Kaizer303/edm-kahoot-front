@@ -130,7 +130,7 @@ const { username } = useContext(UserContext)
           }))
         }))
 
-        const roomData = { hostName: username, questions: questionsData }
+        const roomData = { hostName: username, questions: questionsData, status: 'wait' }
 
         const { data: { _id } } = await axios.post('https://edm-kahoot-service-production.up.railway.app/rooms', roomData)
         
@@ -286,7 +286,6 @@ const { username } = useContext(UserContext)
             type='primary'
             icon={<SaveOutlined />}
             onClick={handleSave}
-            size='large'
           >
             สร้าง
           </Button>

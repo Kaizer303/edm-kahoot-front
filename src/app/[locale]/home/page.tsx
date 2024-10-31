@@ -4,6 +4,7 @@ import WelcomeUserSection from '@/components/home/welcome_user'
 import type { PageProps } from '@/types/common'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { Divider } from "antd";
 
 const HomePage: React.FC<PageProps> = () => {
   const user = cookies().get('user')?.value ?? ''
@@ -20,7 +21,8 @@ const HomePage: React.FC<PageProps> = () => {
         <div className='mb-8'>
           <CreateQuestionButton />
         </div>
-        <div className='mb-8'>
+        <Divider />
+        <div className='mb-8 mt-8'>
           <JoinRoomSection />
         </div>
       </div>
