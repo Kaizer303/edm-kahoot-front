@@ -17,8 +17,8 @@ const JoinRoomSection: React.FC = () => {
 
   const onJoin = async () => {
     try {
-      await joinRoom(pinID, username)
-      router.push(`/rooms/${pinID}`)
+      const { roomID } = await joinRoom(pinID, username)
+      router.push(`/rooms/${roomID}`)
     } catch (err) {
       notification.error({
         message: 'failed to join room',
