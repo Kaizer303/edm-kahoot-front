@@ -3,6 +3,7 @@ import { calculateTimeLeftInMilisecond } from "@/services/utils";
 import { Choice, Room, RoomStatus } from "@/types/common";
 import { Button } from "antd";
 import { useEffect, useState } from "react";
+import { CheckSquareOutlined } from "@ant-design/icons";
 
 type AnswerProps = {
   room: Room;
@@ -12,6 +13,7 @@ type AnswerProps = {
 };
 
 const Answer = ({ room, isHost, changeState, myName }: AnswerProps) => {
+  const [myAnswer, setMyAnswer] = useState<Choice | null>(null);
   const [timer, setTimer] = useState<number>(
     room?.questions[room?.currentQuestion - 1]?.timer || 0
   );
@@ -21,6 +23,7 @@ const Answer = ({ room, isHost, changeState, myName }: AnswerProps) => {
   // answer
   const handleAnswer = (choice: Choice) => {
     setIsAnswered(true);
+    setMyAnswer(choice);
     putAnswer(
       room?._id as string,
       room?.questions[room?.currentQuestion - 1]._id as string,
@@ -57,19 +60,28 @@ const Answer = ({ room, isHost, changeState, myName }: AnswerProps) => {
       <h1>{room?.questions[room?.currentQuestion - 1]?.name}</h1>
       <div className="grid grid-cols-2 gap-4">
         {room?.questions[room?.currentQuestion - 1]?.choices.map((choice) => (
-          <div key={choice.name}>
-            {timer <= 0 && choice.isCorrect ? "🔥" : ""}
-            <Button
-              disabled={timer <= 0 || isHost || isAnswered}
-              type="primary"
-              key={choice.name}
-              onClick={() => handleAnswer(choice)}
-            >
-              {`${choice.name} ${timer <= 0 ? ":" : ""} ${
-                timer <= 0 ? choice.countPlayers : ""
-              }`}
-            </Button>
-          </div>
+          <Button
+            style={{
+              backgroundColor:
+                choice.isCorrect && (timer <= 0 || isHost)
+                  ? "#4CAF50" // green
+                  : myAnswer?.name === choice.name
+                    ? "#1890ff" // blue
+                    : timer <= 0 || isHost || isAnswered
+                      ? "#d9d9d9" // disabled gray
+                      : "#1890ff", // default blue
+              opacity: timer <= 0 || isHost || isAnswered ? 0.65 : 1,
+            }}
+            disabled={timer <= 0 || isHost || isAnswered}
+            icon={timer <= 0 && choice.isCorrect ? <CheckSquareOutlined /> : ""}
+            type="primary"
+            key={choice.name}
+            onClick={() => handleAnswer(choice)}
+          >
+            {`${choice.name} ${timer <= 0 ? ":" : ""} ${
+              timer <= 0 ? choice.countPlayers : ""
+            }`}
+          </Button>
         ))}
       </div>
       {isHost && (

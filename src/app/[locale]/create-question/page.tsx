@@ -1,7 +1,7 @@
 // app/questions/create/page.tsx
-'use client'
+"use client";
 
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState } from "react";
 import {
   Button,
   Card,
@@ -15,8 +15,8 @@ import {
   Menu,
   theme,
   Tooltip,
-  Modal
-} from 'antd'
+  Modal,
+} from "antd";
 import {
   PlusOutlined,
   DeleteOutlined,
@@ -24,300 +24,352 @@ import {
   SaveOutlined,
   ClockCircleOutlined,
   QuestionCircleOutlined,
-} from '@ant-design/icons'
-import { notification } from 'antd'
-import axios from 'axios'
+} from "@ant-design/icons";
+import { notification } from "antd";
+import axios from "axios";
 
-import { UserContext } from '@/contexts/user'
-import { useRouter } from '@/navigation'
+import { UserContext } from "@/contexts/user";
+import { useRouter } from "@/navigation";
 
-// import { Question, Choices } from '@/types/common'
-
-const { Title, Text } = Typography
-const { TextArea } = Input
-const { Sider, Content } = Layout
+const { Title, Text } = Typography;
+const { TextArea } = Input;
+const { Sider, Content } = Layout;
 
 interface Choices {
-  id: number
-  name: string
-  isCorrect: boolean
+  id: number;
+  name: string;
+  isCorrect: boolean;
 }
 
 interface Question {
-  id: number
-  name: string
-  timer: number
-  choices: Choices[]
+  id: number;
+  name: string;
+  timer: number;
+  choices: Choices[];
 }
 
 const QuestionCreator: React.FC = () => {
-const router = useRouter()
-const { username } = useContext(UserContext)
-  const [questions, setQuestions] = useState<Question[]>([{
-    id: 1,
-    name: '',
-    timer: 10,
-    choices: [{
-      id: 1,
-      name: '',
-      isCorrect: false
-    },
+  const router = useRouter();
+  const { username } = useContext(UserContext);
+  const [questions, setQuestions] = useState<Question[]>([
     {
-      id: 2,
-      name: '',
-      isCorrect: false
-    }]
-  }])
-  const [errors, setErrors] = useState<string[]>([])
-  const [collapsed, setCollapsed] = useState(false)
-  const [selectedQuestionId, setSelectedQuestionId] = useState<number>(1)
-  const [deleteModalVisible, setDeleteModalVisible] = useState(false)
-  const [questionToDelete, setQuestionToDelete] = useState<number | null>(null)
+      id: 1,
+      name: "",
+      timer: 10,
+      choices: [
+        {
+          id: 1,
+          name: "",
+          isCorrect: false,
+        },
+        {
+          id: 2,
+          name: "",
+          isCorrect: false,
+        },
+      ],
+    },
+  ]);
+  const [errors, setErrors] = useState<string[]>([]);
+  const [collapsed, setCollapsed] = useState(false);
+  const [selectedQuestionId, setSelectedQuestionId] = useState<number>(1);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [questionToDelete, setQuestionToDelete] = useState<number | null>(null);
 
   const {
     token: { colorBgContainer },
-  } = theme.useToken()
+  } = theme.useToken();
 
   // เลือกคำถามที่แสดงอยู่ปัจจุบัน
-  const currentQuestion = questions.find(q => q.id === selectedQuestionId)
+  const currentQuestion = questions.find((q) => q.id === selectedQuestionId);
 
   const getQuestionTitle = (question: Question, index: number) => {
-    const title = question.name.trim() || `คำถามที่ ${index + 1}`
-    return title.length > 30 ? title.substring(0, 30) + '...' : title
-  }
+    const title = question.name.trim() || `คำถามที่ ${index + 1}`;
+    return title.length > 30 ? title.substring(0, 30) + "..." : title;
+  };
 
   const validateQuestions = (): boolean => {
-    const newErrors: string[] = []
-    
+    const newErrors: string[] = [];
+
     questions.forEach((question, index) => {
       if (!question.name.trim()) {
-        newErrors.push(`คำถามที่ ${index + 1} ไม่มีเนื้อหา`)
+        newErrors.push(`คำถามที่ ${index + 1} ไม่มีเนื้อหา`);
       }
-      
+
       if (question.timer <= 0) {
-        newErrors.push(`คำถามที่ ${index + 1} ต้องกำหนดเวลามากกว่า 0 วินาที`)
+        newErrors.push(`คำถามที่ ${index + 1} ต้องกำหนดเวลามากกว่า 0 วินาที`);
       }
-      
+
       if (question.choices.length < 2) {
-        newErrors.push(`คำถามที่ ${index + 1} ต้องมีตัวเลือกอย่างน้อย 2 ข้อ`)
+        newErrors.push(`คำถามที่ ${index + 1} ต้องมีตัวเลือกอย่างน้อย 2 ข้อ`);
       }
-      
+
       question.choices.forEach((answer, aIndex) => {
         if (!answer.name.trim()) {
-          newErrors.push(`คำตอบที่ ${aIndex + 1} ของคำถามที่ ${index + 1} ไม่มีเนื้อหา`)
+          newErrors.push(
+            `คำตอบที่ ${aIndex + 1} ของคำถามที่ ${index + 1} ไม่มีเนื้อหา`
+          );
         }
-      })
-      
-      const hasCorrectAnswer = question.choices.some(answer => answer.isCorrect)
+      });
+
+      const hasCorrectAnswer = question.choices.some(
+        (answer) => answer.isCorrect
+      );
       if (!hasCorrectAnswer) {
-        newErrors.push(`คำถามที่ ${index + 1} ต้องมีคำตอบที่ถูกต้องอย่างน้อย 1 ข้อ`)
+        newErrors.push(
+          `คำถามที่ ${index + 1} ต้องมีคำตอบที่ถูกต้องอย่างน้อย 1 ข้อ`
+        );
       }
-    })
-    
-    setErrors(newErrors)
-    return newErrors.length === 0
-  }
+    });
+
+    setErrors(newErrors);
+    return newErrors.length === 0;
+  };
 
   const handleSave = async () => {
     if (validateQuestions()) {
       try {
-        const questionsData = questions.map(q => ({
+        const questionsData = questions.map((q) => ({
           name: q.name,
           timer: q.timer,
-          choices: q.choices.map(a => ({
+          choices: q.choices.map((a) => ({
             name: a.name,
-            isCorrect: a.isCorrect
-          }))
-        }))
+            isCorrect: a.isCorrect,
+          })),
+        }));
 
-        const roomData = { hostName: username, questions: questionsData, status: 'wait' }
+        const roomData = {
+          hostName: username,
+          questions: questionsData,
+          status: "wait",
+        };
 
-        const { data: { _id } } = await axios.post('https://edm-kahoot-service-production.up.railway.app/rooms', roomData)
-        
-        router.push(`/rooms/${_id}`)
+        const {
+          data: { _id },
+        } = await axios.post(
+          "https://edm-kahoot-service-production.up.railway.app/rooms",
+          roomData
+        );
+
+        router.push(`/rooms/${_id}`);
         // notification.success({
         //   message: 'บันทึกสำเร็จ',
         //   description: 'บันทึกคำถามเรียบร้อยแล้ว',
         // })
       } catch (error) {
         notification.error({
-          message: 'เกิดข้อผิดพลาด',
-          description: 'ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่อีกครั้ง',
-        })
+          message: "เกิดข้อผิดพลาด",
+          description: "ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่อีกครั้ง",
+        });
       }
     }
-  }
+  };
 
   const addQuestion = () => {
-    const newId = Math.max(...questions.map(q => q.id)) + 1
+    const newId = Math.max(...questions.map((q) => q.id)) + 1;
     const newQuestion = {
       id: newId,
-      name: '',
+      name: "",
       timer: 10,
-      choices: [{
-        id: 1,
-        name: '',
-        isCorrect: false
-      },
-      {
-        id: 2,
-        name: '',
-        isCorrect: false
-      }]
-    }
-    setQuestions([...questions, newQuestion])
-    setSelectedQuestionId(newId)
-  }
+      choices: [
+        {
+          id: 1,
+          name: "",
+          isCorrect: false,
+        },
+        {
+          id: 2,
+          name: "",
+          isCorrect: false,
+        },
+      ],
+    };
+    setQuestions([...questions, newQuestion]);
+    setSelectedQuestionId(newId);
+  };
 
   const addAnswer = (questionId: number) => {
-    setQuestions(questions.map(question => {
-      if (question.id === questionId) {
-        const newAnswerId = Math.max(...question.choices.map(a => a.id)) + 1
-        return {
-          ...question,
-          choices: [...question.choices, {
-            id: newAnswerId,
-            name: '',
-            isCorrect: false
-          }]
+    setQuestions(
+      questions.map((question) => {
+        if (question.id === questionId) {
+          const newAnswerId =
+            Math.max(...question.choices.map((a) => a.id)) + 1;
+          return {
+            ...question,
+            choices: [
+              ...question.choices,
+              {
+                id: newAnswerId,
+                name: "",
+                isCorrect: false,
+              },
+            ],
+          };
         }
-      }
-      return question
-    }))
-  }
+        return question;
+      })
+    );
+  };
 
   const updateQuestion = (questionId: number, name: string) => {
-    setQuestions(questions.map(question => 
-      question.id === questionId ? { ...question, name } : question
-    ))
-  }
+    setQuestions(
+      questions.map((question) =>
+        question.id === questionId ? { ...question, name } : question
+      )
+    );
+  };
 
   const updateTimeLimit = (questionId: number, timer: number | null) => {
-    setQuestions(questions.map(question =>
-      question.id === questionId ? { ...question, timer: timer || 0 } : question
-    ))
-  }
+    setQuestions(
+      questions.map((question) =>
+        question.id === questionId
+          ? { ...question, timer: timer || 0 }
+          : question
+      )
+    );
+  };
 
   const updateAnswer = (questionId: number, answerId: number, name: string) => {
-    setQuestions(questions.map(question => {
-      if (question.id === questionId) {
-        return {
-          ...question,
-          choices: question.choices.map(answer =>
-            answer.id === answerId ? { ...answer, name } : answer
-          )
+    setQuestions(
+      questions.map((question) => {
+        if (question.id === questionId) {
+          return {
+            ...question,
+            choices: question.choices.map((answer) =>
+              answer.id === answerId ? { ...answer, name } : answer
+            ),
+          };
         }
-      }
-      return question
-    }))
-  }
+        return question;
+      })
+    );
+  };
 
   const toggleCorrectAnswer = (questionId: number, answerId: number) => {
-    setQuestions(questions.map(question => {
-      if (question.id === questionId) {
-        return {
-          ...question,
-          choices: question.choices.map(answer =>
-            answer.id === answerId 
-              ? { ...answer, isCorrect: !answer.isCorrect }
-              : answer
-          )
+    setQuestions(
+      questions.map((question) => {
+        if (question.id === questionId) {
+          return {
+            ...question,
+            choices: question.choices.map((answer) =>
+              answer.id === answerId
+                ? { ...answer, isCorrect: !answer.isCorrect }
+                : answer
+            ),
+          };
         }
-      }
-      return question
-    }))
-  }
+        return question;
+      })
+    );
+  };
 
   const removeAnswer = (questionId: number, answerId: number) => {
-    setQuestions(questions.map(question => {
-      if (question.id === questionId) {
-        return {
-          ...question,
-          choices: question.choices.filter(answer => answer.id !== answerId)
+    setQuestions(
+      questions.map((question) => {
+        if (question.id === questionId) {
+          return {
+            ...question,
+            choices: question.choices.filter(
+              (answer) => answer.id !== answerId
+            ),
+          };
         }
-      }
-      return question
-    }))
-  }
+        return question;
+      })
+    );
+  };
 
   const confirmDeleteQuestion = (questionId: number) => {
-    setQuestionToDelete(questionId)
-    setDeleteModalVisible(true)
-  }
+    setQuestionToDelete(questionId);
+    setDeleteModalVisible(true);
+  };
 
   const handleDeleteQuestion = () => {
-    if (questionToDelete === null) return
-    
-    const newQuestions = questions.filter(q => q.id !== questionToDelete)
-    setQuestions(newQuestions)
-    
+    if (questionToDelete === null) return;
+
+    const newQuestions = questions.filter((q) => q.id !== questionToDelete);
+    setQuestions(newQuestions);
+
     if (selectedQuestionId === questionToDelete) {
-      setSelectedQuestionId(newQuestions[0]?.id || 0)
+      setSelectedQuestionId(newQuestions[0]?.id || 0);
     }
-    
-    setDeleteModalVisible(false)
-    setQuestionToDelete(null)
-  }
+
+    setDeleteModalVisible(false);
+    setQuestionToDelete(null);
+  };
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <Sider 
-        trigger={null} 
-        collapsible 
+    <Layout style={{ minHeight: "100vh" }}>
+      <Sider
+        trigger={null}
+        collapsible
         collapsed={collapsed}
-        theme='light'
+        theme="light"
         width={300}
         style={{
-          overflow: 'auto',
-          height: '100vh',
-          position: 'fixed',
+          overflow: "auto",
+          height: "100vh",
+          position: "fixed",
           left: 0,
-          boxShadow: '-1px 1px 5px #aaaaaa'
+          boxShadow: "-1px 1px 5px #aaaaaa",
         }}
       >
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'center',
-          padding: '16px'
-        }}>
-          {!collapsed && <Title level={4} style={{ margin: 0 }}>รายการคำถาม</Title>}
-          <Button
-            type='primary'
-            icon={<SaveOutlined />}
-            onClick={handleSave}
-          >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "16px",
+          }}
+        >
+          {!collapsed && (
+            <Title level={4} style={{ margin: 0 }}>
+              รายการคำถาม
+            </Title>
+          )}
+          <Button type="primary" icon={<SaveOutlined />} onClick={handleSave}>
             สร้าง
           </Button>
         </div>
         <Menu
-          mode='inline'
+          mode="inline"
           selectedKeys={[selectedQuestionId.toString()]}
           style={{ borderRight: 0 }}
           items={questions.map((question, index) => ({
             key: question.id.toString(),
             icon: <QuestionCircleOutlined />,
             label: getQuestionTitle(question, index),
-            onClick: () => setSelectedQuestionId(question.id)
+            onClick: () => setSelectedQuestionId(question.id),
           }))}
         />
-        <div style={{ padding: '16px' }}>
+        <div style={{ padding: "16px" }}>
           <Button
-            type='dashed'
+            type="dashed"
             icon={<PlusOutlined />}
             onClick={addQuestion}
             block
           >
-            {!collapsed && 'เพิ่มคำถามใหม่'}
+            {!collapsed && "เพิ่มคำถามใหม่"}
           </Button>
         </div>
       </Sider>
 
-      <Layout style={{ marginLeft: collapsed ? 80 : 300, transition: 'all 0.2s' }}>
-        <Content style={{ margin: '14px 24px', background: colorBgContainer, padding: 24, minHeight: 280, boxShadow: '1px 1px 5px #aaaaaa', borderRadius: '5px' }}>
+      <Layout
+        style={{ marginLeft: collapsed ? 80 : 300, transition: "all 0.2s" }}
+      >
+        <Content
+          style={{
+            margin: "14px 24px",
+            background: colorBgContainer,
+            padding: 24,
+            minHeight: 280,
+            boxShadow: "1px 1px 5px #aaaaaa",
+            borderRadius: "5px",
+          }}
+        >
           {errors.length > 0 && (
             <Alert
-              message='พบข้อผิดพลาด'
+              message="พบข้อผิดพลาด"
               description={
                 <ul>
                   {errors.map((error, index) => (
@@ -325,7 +377,7 @@ const { username } = useContext(UserContext)
                   ))}
                 </ul>
               }
-              type='error'
+              type="error"
               showIcon
               style={{ marginBottom: 24 }}
             />
@@ -333,7 +385,7 @@ const { username } = useContext(UserContext)
 
           {currentQuestion && (
             <Card
-              title={`คำถามที่ ${questions.findIndex(q => q.id === currentQuestion.id) + 1}`}
+              title={`คำถามที่ ${questions.findIndex((q) => q.id === currentQuestion.id) + 1}`}
               extra={
                 <Button
                   type="primary"
@@ -346,11 +398,17 @@ const { username } = useContext(UserContext)
                 </Button>
               }
             >
-              <Space direction='vertical' size='middle' style={{ width: '100%' }}>
+              <Space
+                direction="vertical"
+                size="middle"
+                style={{ width: "100%" }}
+              >
                 <TextArea
-                  placeholder='พิมพ์คำถามของคุณที่นี่'
+                  placeholder="พิมพ์คำถามของคุณที่นี่"
                   value={currentQuestion.name}
-                  onChange={(e) => updateQuestion(currentQuestion.id, e.target.value)}
+                  onChange={(e) =>
+                    updateQuestion(currentQuestion.id, e.target.value)
+                  }
                   autoSize={{ minRows: 2 }}
                 />
 
@@ -359,37 +417,55 @@ const { username } = useContext(UserContext)
                   <InputNumber
                     min={0}
                     defaultValue={10}
-                    placeholder='เวลา'
+                    placeholder="เวลา"
                     value={currentQuestion.timer}
-                    onChange={(value) => updateTimeLimit(currentQuestion.id, value)}
+                    onChange={(value) =>
+                      updateTimeLimit(currentQuestion.id, value)
+                    }
                     style={{ width: 100 }}
                   />
-                  <Text type='secondary'>วินาที</Text>
+                  <Text type="secondary">วินาที</Text>
                 </Space>
 
                 <Divider>คำตอบ</Divider>
 
-                <Space direction='vertical' style={{ width: '100%' }}>
+                <Space direction="vertical" style={{ width: "100%" }}>
                   {currentQuestion.choices.map((answer) => (
-                    <Space key={answer.id} style={{ width: '100%' }}>
-                      <Tooltip title={answer.isCorrect ? 'คำตอบที่ถูกต้อง' : 'คลิกเพื่อตั้งเป็นคำตอบที่ถูกต้อง'}>
+                    <Space key={answer.id} style={{ width: "100%" }}>
+                      <Tooltip
+                        title={
+                          answer.isCorrect
+                            ? "คำตอบที่ถูกต้อง"
+                            : "คลิกเพื่อตั้งเป็นคำตอบที่ถูกต้อง"
+                        }
+                      >
                         <Button
-                          type={answer.isCorrect ? 'primary' : 'default'}
+                          type={answer.isCorrect ? "primary" : "default"}
                           icon={<CheckOutlined />}
-                          onClick={() => toggleCorrectAnswer(currentQuestion.id, answer.id)}
+                          onClick={() =>
+                            toggleCorrectAnswer(currentQuestion.id, answer.id)
+                          }
                         />
                       </Tooltip>
                       <Input
-                        placeholder='พิมพ์คำตอบ'
+                        placeholder="พิมพ์คำตอบ"
                         value={answer.name}
-                        onChange={(e) => updateAnswer(currentQuestion.id, answer.id, e.target.value)}
+                        onChange={(e) =>
+                          updateAnswer(
+                            currentQuestion.id,
+                            answer.id,
+                            e.target.value
+                          )
+                        }
                         style={{ flex: 1 }}
                       />
                       {currentQuestion.choices.length > 2 && (
                         <Button
                           danger
                           icon={<DeleteOutlined />}
-                          onClick={() => removeAnswer(currentQuestion.id, answer.id)}
+                          onClick={() =>
+                            removeAnswer(currentQuestion.id, answer.id)
+                          }
                         />
                       )}
                     </Space>
@@ -397,7 +473,7 @@ const { username } = useContext(UserContext)
                 </Space>
 
                 <Button
-                  type='dashed'
+                  type="dashed"
                   icon={<PlusOutlined />}
                   onClick={() => addAnswer(currentQuestion.id)}
                   block
@@ -411,20 +487,20 @@ const { username } = useContext(UserContext)
       </Layout>
 
       <Modal
-        title='ยืนยันการลบคำถาม'
+        title="ยืนยันการลบคำถาม"
         open={deleteModalVisible}
         onOk={handleDeleteQuestion}
         onCancel={() => {
-          setDeleteModalVisible(false)
-          setQuestionToDelete(null)
+          setDeleteModalVisible(false);
+          setQuestionToDelete(null);
         }}
-        okText='ลบ'
-        cancelText='ยกเลิก'
+        okText="ลบ"
+        cancelText="ยกเลิก"
       >
         <p>คุณแน่ใจหรือไม่ที่ต้องการลบคำถามนี้?</p>
       </Modal>
     </Layout>
-  )
-}
+  );
+};
 
-export default QuestionCreator
+export default QuestionCreator;
