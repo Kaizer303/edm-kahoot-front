@@ -53,7 +53,7 @@ const PlayPage = () => {
   }, [data.status]);
 
   return (
-    <div className="bg-gray-200 min-h-screen w-screen flex items-center justify-center">
+    <div>
       {IS_DEV && (
         <div className="flex flex-col h-32 items-center justify-center bg-slate-500 text-white">
           <div className="flex flex-row gap-4 items-center justify-center">
@@ -78,24 +78,22 @@ const PlayPage = () => {
           </div>
         </div>
       )}
-      <div className="p-4">
-        {data?.status === "wait" ? (
-          <WaitingRoom room={data} isHost={isHost} myName={myName} />
-        ) : data?.status === "countdown" ? (
-          <Countdown room={data} changeState={changeState} />
-        ) : data?.status === "start" ? (
-          <Answer
-            room={data}
-            isHost={isHost}
-            changeState={changeState}
-            myName={myName}
-          />
-        ) : data?.status === "summarize" ? (
-          <Summarize room={data} isHost={isHost} />
-        ) : (
-          <div>Back to home</div>
-        )}
-      </div>
+      {data?.status === "wait" ? (
+        <WaitingRoom room={data} isHost={isHost} myName={myName} />
+      ) : data?.status === "countdown" ? (
+        <Countdown room={data} changeState={changeState} />
+      ) : data?.status === "start" ? (
+        <Answer
+          room={data}
+          isHost={isHost}
+          changeState={changeState}
+          myName={myName}
+        />
+      ) : data?.status === "summarize" ? (
+        <Summarize room={data} isHost={isHost} />
+      ) : (
+        <div>Back to home</div>
+      )}
     </div>
   );
 };

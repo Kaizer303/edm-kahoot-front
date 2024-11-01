@@ -52,11 +52,11 @@ const Answer = ({ room, isHost, changeState, myName }: AnswerProps) => {
   }, [timer]);
 
   return (
-    <div className="flex flex-col gap-4 -mt-32">
+    <div className="flex flex-col gap-4 m-4">
       <div className="flex flex-col justify-center items-center">
-        {/* <p>
+        <p>
           Question {room?.currentQuestion}/{room?.questions.length}
-        </p> */}
+        </p>
         <h1>{room?.questions[room?.currentQuestion - 1]?.name}</h1>
         <div className="flex flex-row gap-4 bg-orange-400 text-white rounded-full p-2 h-10 w-10 items-center justify-center">
           <h2>{timer ? timer : "0"}</h2>
