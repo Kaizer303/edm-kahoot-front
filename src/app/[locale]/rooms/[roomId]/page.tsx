@@ -53,7 +53,7 @@ const PlayPage = () => {
   }, [data.status]);
 
   return (
-    <div>
+    <div className="flex h-screen items-center">
       {IS_DEV && (
         <div className="flex flex-col h-32 items-center justify-center bg-slate-500 text-white">
           <div className="flex flex-row gap-4 items-center justify-center">
