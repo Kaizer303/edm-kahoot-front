@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Answer from "@/components/play-page/answer";
 import Countdown from "@/components/play-page/countdown";
 import WaitingRoom from "@/components/play-page/waiting-room";
@@ -12,11 +12,12 @@ import { UserContext } from "@/contexts/user";
 import Summarize from "@/components/play-page/summarize";
 import { getRoom } from "@/services/room";
 
-const IS_DEV = true;
+const IS_DEV = false;
 
 const PlayPage = () => {
   const params = useParams();
   const { username } = useContext(UserContext);
+  const router = useRouter();
   const [data, setData] = useState<Room>(ROOM_INIT);
   const [isHost, setIsHost] = useState<boolean>(false);
   const [myName, setMyName] = useState<string>("HOST");
@@ -44,8 +45,15 @@ const PlayPage = () => {
     setData({ ...data, status: status });
   };
 
+  // TODO: if status is end back to home page
+  useEffect(() => {
+    if (data.status === "end") {
+      router.push("/");
+    }
+  }, [data.status]);
+
   return (
-    <div>
+    <div className="bg-gray-200 min-h-screen w-screen flex items-center justify-center">
       {IS_DEV && (
         <div className="flex flex-col h-32 items-center justify-center bg-slate-500 text-white">
           <div className="flex flex-row gap-4 items-center justify-center">
@@ -70,22 +78,24 @@ const PlayPage = () => {
           </div>
         </div>
       )}
-      {data?.status === "wait" ? (
-        <WaitingRoom room={data} isHost={isHost} myName={myName} />
-      ) : data?.status === "countdown" ? (
-        <Countdown room={data} changeState={changeState} />
-      ) : data?.status === "start" ? (
-        <Answer
-          room={data}
-          isHost={isHost}
-          changeState={changeState}
-          myName={myName}
-        />
-      ) : data?.status === "summarize" ? (
-        <Summarize room={data} isHost={isHost} />
-      ) : (
-        <div>No page</div>
-      )}
+      <div className="p-4">
+        {data?.status === "wait" ? (
+          <WaitingRoom room={data} isHost={isHost} myName={myName} />
+        ) : data?.status === "countdown" ? (
+          <Countdown room={data} changeState={changeState} />
+        ) : data?.status === "start" ? (
+          <Answer
+            room={data}
+            isHost={isHost}
+            changeState={changeState}
+            myName={myName}
+          />
+        ) : data?.status === "summarize" ? (
+          <Summarize room={data} isHost={isHost} />
+        ) : (
+          <div>Back to home</div>
+        )}
+      </div>
     </div>
   );
 };

@@ -52,19 +52,23 @@ const Answer = ({ room, isHost, changeState, myName }: AnswerProps) => {
   }, [timer]);
 
   return (
-    <div className="flex flex-col gap-4 m-4">
-      <h1>
-        Question {room?.currentQuestion}/{room?.questions.length}
-      </h1>
-      <h1>Timer: {timer ? timer : "0"}</h1>
-      <h1>{room?.questions[room?.currentQuestion - 1]?.name}</h1>
+    <div className="flex flex-col gap-4 -mt-32">
+      <div className="flex flex-col justify-center items-center">
+        {/* <p>
+          Question {room?.currentQuestion}/{room?.questions.length}
+        </p> */}
+        <h1>{room?.questions[room?.currentQuestion - 1]?.name}</h1>
+        <div className="flex flex-row gap-4 bg-orange-400 text-white rounded-full p-2 h-10 w-10 items-center justify-center">
+          <h2>{timer ? timer : "0"}</h2>
+        </div>
+      </div>
       <div className="grid grid-cols-2 gap-4">
         {room?.questions[room?.currentQuestion - 1]?.choices.map((choice) => (
           <Button
             style={{
               backgroundColor:
                 choice.isCorrect && (timer <= 0 || isHost)
-                  ? "#4CAF50" // green
+                  ? "#237804" // green
                   : myAnswer?.name === choice.name
                     ? "#1890ff" // blue
                     : timer <= 0 || isHost || isAnswered
