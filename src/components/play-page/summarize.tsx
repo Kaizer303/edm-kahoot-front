@@ -34,7 +34,7 @@ const Summarize = ({ room, isHost }: SummarizeProps) => {
   };
 
   return (
-    <div className="flex flex-col gap-4 m-4">
+    <div className="flex flex-col gap-4 m-4 w-full">
       <h1>Summarize</h1>
       <List
         itemLayout="horizontal"
