@@ -25,7 +25,7 @@
     "@next/env": "13.5.*",
     "@next/third-parties": "14.2.*",
     "@tanstack/react-query": "5.0.*",
-    "antd": "5.16.4",
+    "antd": "5.29.3",
     "autoprefixer": "10.4.19",
     "axios": "1.5.*",
     "cookie-parser": "1.4.*",
